@@ -10,14 +10,16 @@ namespace BeerhallIIEF.Models
         public int CourseId { get; set; }
         public int? Credits { get; set; }
         public string Title { get; set; }
+        public Brewer Brewer { get; set; }
         public Language Language { get; set; }
 
         public Course() { }
 
-        public Course(string title, Language language) : this()
+        public Course(string title, Language language, Brewer brewer) : this()
         {
             Title = title;
             Language = language;
+            Brewer = brewer;
         }
     }
     

@@ -8,9 +8,10 @@ using BeerhallIIEF.Data;
 namespace BeerhallIIEF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161228154326_CreateTableCourses")]
+    partial class CreateTableCourses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -79,9 +80,7 @@ namespace BeerhallIIEF.Migrations
 
                     b.Property<int>("Language");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 100);
+                    b.Property<string>("Title");
 
                     b.HasKey("CourseId");
 
@@ -100,10 +99,9 @@ namespace BeerhallIIEF.Migrations
 
             modelBuilder.Entity("BeerhallIIEF.Models.Course", b =>
                 {
-                    b.HasOne("BeerhallIIEF.Models.Brewer", "Brewer")
+                    b.HasOne("BeerhallIIEF.Models.Brewer")
                         .WithMany("Courses")
-                        .HasForeignKey("BrewerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BrewerId");
                 });
         }
     }

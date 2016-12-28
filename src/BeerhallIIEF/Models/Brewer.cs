@@ -14,7 +14,6 @@ namespace BeerhallIIEF.Models
         public string Street { get; set; }
         public int? Turnover { get; set; }
         public ICollection<Beer> Beers { get; private set; }
-        public Location Location { get; set; }
         public ICollection<Course> Courses { get; private set; } 
         #endregion
 
