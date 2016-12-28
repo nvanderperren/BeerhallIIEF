@@ -1,4 +1,5 @@
-﻿using BeerhallIIEF.Models;
+﻿using System;
+using BeerhallIIEF.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -28,7 +29,21 @@ namespace BeerhallIIEF.Data
             modelBuilder.Entity<Location>(MapLocation);
             modelBuilder.Entity<Category>(MapCategory);
             modelBuilder.Entity<BrewerCategory>(MapBrewerCategory);
+            modelBuilder.Entity<OnlineCourse>(MapOnlineCourse);
+            modelBuilder.Entity<OnsiteCourse>(MapOnsiteCourse);
 
+        }
+
+        private void MapOnlineCourse(EntityTypeBuilder<OnlineCourse> c)
+        {
+            //Properties
+            c.Property(t => t.Url).HasMaxLength(100);
+        }
+
+        private void MapOnsiteCourse(EntityTypeBuilder<OnsiteCourse> c)
+        {
+            //Properties
+            c.Property(t => t.StartDate).HasAnnotation("BackingField", "_startDate");
         }
 
         private void MapCategory(EntityTypeBuilder<Category> c)
@@ -42,6 +57,8 @@ namespace BeerhallIIEF.Data
                 .IsRequired();
 
             c.Ignore(t => t.Brewers);
+
+           
 
         }
 
@@ -94,7 +111,10 @@ namespace BeerhallIIEF.Data
                 .HasMaxLength(100)
                 .IsRequired();
 
-            //Associaties
+            //inheritance
+            c.HasDiscriminator<string>("Type")
+                .HasValue<OnlineCourse>("Online")
+                .HasValue<OnsiteCourse>("Onsite");
 
         }
 
@@ -111,6 +131,8 @@ namespace BeerhallIIEF.Data
                 .HasMaxLength(100);
             b.Property(t => t.BeerId)
                 .ValueGeneratedOnAdd();
+
+            b.HasIndex(t => t.Name).IsUnique(true);
         }
 
         private static void MapBrewer(EntityTypeBuilder<Brewer> b)
