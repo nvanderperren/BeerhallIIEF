@@ -13,6 +13,7 @@ namespace BeerhallIIEF.Models
         public DateTime? DateEstablished { get; set; }
         public string Street { get; set; }
         public int? Turnover { get; set; }
+        public Location Location { get; set; }
         public ICollection<Beer> Beers { get; private set; }
         public ICollection<Course> Courses { get; private set; } 
         #endregion

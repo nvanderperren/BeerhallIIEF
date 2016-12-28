@@ -8,9 +8,10 @@ using BeerhallIIEF.Data;
 namespace BeerhallIIEF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161228161446_CreateTableLocations")]
+    partial class CreateTableLocations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -99,9 +100,7 @@ namespace BeerhallIIEF.Migrations
                     b.Property<string>("PostalCode")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 100);
+                    b.Property<string>("Name");
 
                     b.HasKey("PostalCode");
 

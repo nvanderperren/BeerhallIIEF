@@ -10,6 +10,7 @@ namespace BeerhallIIEF.Data
         public DbSet<Brewer> Brewers { get; set; }
         public DbSet<Beer> Beers { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<Location> Locations { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionstring = @"Server=.\SQLEXPRESS;Database=Beerhall;Integrated Security=True;";
@@ -22,6 +23,23 @@ namespace BeerhallIIEF.Data
             modelBuilder.Entity<Brewer>(MapBrewer);
             modelBuilder.Entity<Beer>(MapBeer);
             modelBuilder.Entity<Course>(MapCourse);
+            modelBuilder.Entity<Location>(MapLocation);
+        }
+
+        private void MapLocation(EntityTypeBuilder<Location> l)
+        {
+            l.ToTable("Locations");
+
+            //PK
+            l.HasKey(t => t.PostalCode);
+
+            //Properties
+            l.Property(t => t.Name)
+                .HasMaxLength(100)
+                .IsRequired();
+            
+
+        
         }
 
         private void MapCourse(EntityTypeBuilder<Course> c)
@@ -85,8 +103,12 @@ namespace BeerhallIIEF.Data
 
             b.HasMany(t => t.Courses)
                 .WithOne(t => t.Brewer)
-                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasOne(t => t.Location)
+                .WithMany()
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
