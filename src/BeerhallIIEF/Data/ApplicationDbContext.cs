@@ -11,6 +11,8 @@ namespace BeerhallIIEF.Data
         public DbSet<Beer> Beers { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionstring = @"Server=.\SQLEXPRESS;Database=Beerhall;Integrated Security=True;";
@@ -24,6 +26,44 @@ namespace BeerhallIIEF.Data
             modelBuilder.Entity<Beer>(MapBeer);
             modelBuilder.Entity<Course>(MapCourse);
             modelBuilder.Entity<Location>(MapLocation);
+            modelBuilder.Entity<Category>(MapCategory);
+            modelBuilder.Entity<BrewerCategory>(MapBrewerCategory);
+
+        }
+
+        private void MapCategory(EntityTypeBuilder<Category> c)
+        {
+            //PK
+            c.HasKey(t => t.CategoryId);
+            
+            //Properties
+            c.Property(t => t.Name)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            c.Ignore(t => t.Brewers);
+
+        }
+
+        private void MapBrewerCategory(EntityTypeBuilder<BrewerCategory> bc)
+        {
+            //PK
+            bc.HasKey(t => new {t.BrewerId, t.CategoryId});
+
+            //Associaties
+            bc.HasOne(t => t.Brewer)
+                .WithMany()
+                .HasForeignKey(t => t.BrewerId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            bc.HasOne(t => t.Category)
+                .WithMany(c => c.BCategory)
+                .HasForeignKey(t => t.CategoryId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
 
         private void MapLocation(EntityTypeBuilder<Location> l)
