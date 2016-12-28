@@ -23,7 +23,8 @@ namespace BeerhallIIEF.Migrations
 
                     b.Property<double?>("AlcoholByVolume");
 
-                    b.Property<int?>("BrewerId");
+                    b.Property<int?>("BrewerId")
+                        .IsRequired();
 
                     b.Property<string>("Description");
 
@@ -71,7 +72,8 @@ namespace BeerhallIIEF.Migrations
                 {
                     b.HasOne("BeerhallIIEF.Models.Brewer")
                         .WithMany("Beers")
-                        .HasForeignKey("BrewerId");
+                        .HasForeignKey("BrewerId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

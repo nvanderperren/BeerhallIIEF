@@ -1,15 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BeerhallIIEF.Migrations
 {
-    public partial class CreateRelationBrewerBeers : Migration
+    public partial class TableBrewers : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "Beers",
+                maxLength: 100,
+                nullable: false);
+
             migrationBuilder.AddColumn<int>(
                 name: "BrewerId",
                 table: "Beers",
-                nullable: true);
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Beers_BrewerId",
@@ -22,7 +31,7 @@ namespace BeerhallIIEF.Migrations
                 column: "BrewerId",
                 principalTable: "Brewers",
                 principalColumn: "BrewerId",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -38,6 +47,11 @@ namespace BeerhallIIEF.Migrations
             migrationBuilder.DropColumn(
                 name: "BrewerId",
                 table: "Beers");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "Beers",
+                nullable: true);
         }
     }
 }

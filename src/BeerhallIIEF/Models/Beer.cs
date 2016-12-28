@@ -8,6 +8,7 @@
         public double? AlcoholByVolume { get; set; }
         public bool AlcoholKnown => AlcoholByVolume.HasValue;
         public decimal Price { get; set; }
+        
 
         public Beer()
         {

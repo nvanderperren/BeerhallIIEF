@@ -1,5 +1,6 @@
 ﻿using BeerhallIIEF.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BeerhallIIEF.Data
@@ -57,6 +58,12 @@ namespace BeerhallIIEF.Data
 
             b.Property(t => t.BrewerId)
                 .ValueGeneratedOnAdd();
+
+            //Relaties
+            b.HasMany(t => t.Beers)
+                .WithOne()
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
